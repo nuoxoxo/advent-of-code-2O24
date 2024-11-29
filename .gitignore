@@ -1,0 +1,11 @@
+*
+!.gitignore
+!.env.sample
+!*.cc
+!*.py
+!*.ts
+!*.go
+!*.md
+!*.sh
+!Makefile
+!*got*
