@@ -17,13 +17,21 @@ N=${#L[@]}
 #echo "L: ${L[@]}"
 #echo "R: ${R[@]}"
 
-# part 1
 A=0
+B=0
 for ((i = 0; i < N; i++)); do
     tmp=$((L[i] - R[i]))
     tmp=$((tmp < 0 ? -tmp : tmp))
     A=$((A + tmp))
+    occur=0
+    for r in "${R[@]}"; do
+        if [[ "${L[i]}" -eq "$r" ]]; then
+            occur=$((occur+1))
+        fi
+    done
+    B=$((B+occur*L[i]))
 done
 
 echo "part 1: $A" 
+echo "part 2: $B" 
 
