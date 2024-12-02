@@ -6,13 +6,15 @@ function OK {
     S=($(printf "%s\n" "${A[@]}" | sort -u | wc -l | tr -d ' '))
     a=($(printf "%s\n" "${A[@]}" | sort -n))
     r=()
-    for ((i = N - 1; i > -1; i--)); do r+=("${a[i]}"); done
-    if [[ "${A[*]}" == "${a[*]}" || "${A[*]}" == "${r[*]}" ]] && [[ N -eq S ]]; then
+    for ((i = N - 1; i > -1; i--)); do
+        r += ("${a[i]}")
+    done
+    if [[ "${A[*]}"=="${a[*]}" || "${A[*]}"=="${r[*]}" ]] && [[ N -eq S ]]; then
         gap=0
         for ((i = 1; i < N; i++ )); do
             diff=$(( A[i] - A[i-1] ))
             diff=${diff#-} # rmv negative sign 
-            gap=$((gap < diff ? diff : gap))
+            gap=$(( gap < diff ? diff : gap ))
             if ((gap > 3)); then
                 break
             fi
@@ -43,5 +45,7 @@ while read -r line; do
         fi
     done
 done
+
 echo "part 1: $r1"
 echo "part 2: $r2"
+
