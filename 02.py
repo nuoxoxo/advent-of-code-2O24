@@ -1,61 +1,28 @@
 lines = open(0).read().strip().split('\n')
 r1, r2 = 0, 0
-poss = 0
-A,B=[],[]
-for l in lines:
-    a = [int(_) for _ in l.split()]
-    def issafe(a) -> (bool, int):
-        N = len(a)
-        safe = True
-        gap = 0
-        for s in range(1, N): # find start
-            if a[s - 1] < a[s]: # inc
-                for i in range(s, N):
-                    gap = max(abs(a[i - 1] - a[i]), gap)
-                    if a[i - 1] > a[i]:
-                        safe = False
-                        idx = i
-                        break
-            elif a[s - 1] > a[s]: # dec
-                for i in range(s, N):
-                    gap = max(abs(a[i - 1] - a[i]), gap)
-                    if a[i - 1] < a[i]:
-                        safe = False
-                        idx = i
-                        break
-            else:
-                idx = s - 1
-                safe = False
-            if not safe or gap not in range(1, 4):
-                break
-        return (safe and gap in range(1,4), idx)
-    check, pos = issafe(a)
-    if check:
+for line in lines:
+    a = [int(_) for _ in line.split()]
+
+    def ok(a) -> bool:
+        res = 0
+        aa = sorted(a)
+        if (a == aa or a == aa[::-1]) and len(a) == len(set(a)):
+            gap = 0
+            for i in range(1, len(a)):
+                gap = max(gap, abs(a[i] - a[i-1]))
+                if gap > 3:
+                    break
+            if gap in [1,2,3]:
+                res += 1
+        return res
+
+    if ok (a):
         r1 += 1
+        r2 += 1
     else:
-        icorr = -1
-        for i in range(len(a)):
+        for i in range(len(a) - 1):
             aa = a[:i] + a[i + 1:]
-            if issafe(aa)[0]:
-                poss += 1
-                icorr = i
-                B.append(icorr) 
-                A.append(pos)
-                break
-# 578 573 569/lo
-r2 = r1 + poss
+            if ok (aa):
+                r2 += 1
 print('part 1:', r1)
-print('part 2:', r2)
-for a, b in zip(A, B):
-    print(a,b)
-"""
-    elif pos > -1:
-        print(pos)
-        for p in [0, pos, len(a) - 1]:
-            aa = a[::]
-            aa.pop(p)
-            if issafe(aa)[0]:
-                poss += 1
-                print(l, '-', aa)
-                break
-"""
+print('part 1:', r2)
