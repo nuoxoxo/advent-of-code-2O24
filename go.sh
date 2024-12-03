@@ -13,13 +13,13 @@ fi
 URL="https://adventofcode.com/2024/day/$1/input"
 
 if [[ -z "$AOC_SESSION" ]]; then
-    read -p "Enter aoc session: " TEMP
-    echo "exporting: ${TEMP}"
-    export "AOC_SESSION=${TEMP}"
-else 
-    echo "Session: $AOC_SESSION"
+    if [[ -f .env && -s .env ]]; then
+        source .env
+    else
+        read -p "Enter aoc session: " TEMP
+        export "AOC_SESSION=${TEMP}"
+    fi
 fi
 
-# echo "${URL} \nSession:\n$AOC_SESSION"
 curl -H "Cookie: session=$AOC_SESSION" -o ${FILENAME} ${URL}
-# export "AOC_SESSION=$AOC_SESSION" # cant do cause we are in a subshell
+
