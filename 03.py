@@ -4,12 +4,10 @@ r2,r1 = 0,0
 ok = True
 
 for l in lines:
-    # p1
     ps = re.findall(r'mul\((\d+,\d+)\)', l)
     for p in ps:#pairs:
         L, R = [int(_)for _ in p.split(',')]
         r1 += L * R
-    # p2
     ts = re.findall(r'mul\((\d+,\d+)\)|(do\(\))|(don\'t\(\))', l)
     for a, b, c in ts:#trios:
         if b: ok = True
