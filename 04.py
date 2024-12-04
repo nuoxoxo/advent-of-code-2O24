@@ -14,18 +14,20 @@ for r in range(R - 2):
         sub = []
         for rr in range(r, r + 3):
             sub.append(L[rr][c:c + 3])
-
         if grid(sub):
             r2 += 1
 # p1
 D = [(1,1),(1,-1)]
 def hove(s:str) -> int:
+    """
     res = 0
     for i in range(len(s) - 3):
         sub = s[i:i + 4]
         if sub == t or sub == t[::-1]:#Counter(sub) == Counter(t):
             res += 1
     return res
+    """
+    return s.count('XMAS') + s.count('SAMX')
 
 def diag(r:int, c:int) -> int: 
     res = 0
