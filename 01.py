@@ -1,7 +1,7 @@
 lines = open(0).read().strip().split('\n')
 
 L, R = zip(*(map(int, _.split()) for _ in lines))
-# simplest way to get L R
+# a simpler way to get L R
 """
 L, R = [], []
 for line in lines:
