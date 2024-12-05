@@ -13,12 +13,28 @@ IFS=$'\n' read -r -d '' -a lines <<< "$A"
 R=${#lines[@]}
 C=${#lines[0]}
 
+r2=0
+for ((r = 0; r < R - 2; r++)); do
+    for ((c = 0; c < C - 2; c++)); do
+        if [[ "${lines[r+1]:c+1:1}" != "A" ]]; then
+            continue
+        fi
+        hi=${lines[r]:c:3}
+        lo=${lines[r+2]:c:3}
+        sub="${hi:0:1}${hi:2:1}${lo:2:1}${lo:0:1}"
+        if [[ "$sub" =~ ^(SSMM|SMMS|MMSS|MSSM)$ ]]; then
+            ((r2++))
+        fi
+    done
+done
+echo "part 2/try $r2"
+
 #DONE
 # get a transposed grid
 # get all diagonal lines
 
-#TODO
-# get all 3x3 grids
+#DONE (above)
+# get all 3x3 grids ---> no need, we count it in place
 
 # transpose
 for (( c = 0; c < C; c++ )); do
@@ -84,5 +100,4 @@ for (( r = 0; r < R - 3; r++ )); do
 done
 
 echo "part 1: $r1"
-echo "part 2: $r2"
 
