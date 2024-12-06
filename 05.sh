@@ -27,9 +27,9 @@ declare -a isafter
 
 insert() {
     local a=$1
-    local sorted=$2
-    if [[ ! " ${isafter[$a]} " =~ " $sorted " ]]; then
-        isafter["$a"]+="$sorted "
+    local b=$2
+    if [[ ! " ${isafter[$a]} " =~ " $b " ]]; then
+        isafter["$a"]+="$b "
     fi
 }
 
