@@ -9,8 +9,8 @@ for r, row in enumerate(g):
 #print(A)
 nodes = set()
 nodes2 = set()
-for cset in A.values():
-    coor = sorted(list(cset))
+for coor in A.values():
+    coor = sorted(list(coor))
     for r,c in coor:
         for rr, cc in coor:
             if rr == r and cc == c: continue
