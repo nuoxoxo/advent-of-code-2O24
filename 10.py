@@ -11,14 +11,13 @@ def solve(part2):
             if dg != '0': continue
             SEEN = set([(r,c)])
             Q = [(r,c)]
-            tmp = 0
             if part2: D = defaultdict(int); D[(r,c)] = 1 # p2
             while Q:
                 sr, sc = Q.pop(0)
                 prev = int(G[sr][sc])
                 if int(G[sr][sc]) == 9:
+                    p1 += 1
                     if part2: p2 += D[(sr,sc)] # p2
-                    tmp += 1
                 for dr, dc in DIR:
                     rr, cc = sr + dr, sc + dc
                     if rr in range(R) and cc in range(C) and int(G[rr][cc])==prev+1:
@@ -26,7 +25,6 @@ def solve(part2):
                             Q.append((rr,cc))
                             SEEN.add((rr,cc))
                         if part2: D[(rr,cc)] += D[(sr,sc)] # p2
-            p1 += tmp
     assert(p1 % 100 in [36,9])
     if part2:
         assert(p2 % 100 in [26,9**2])
