@@ -20,16 +20,15 @@ for coor in A.values():
             if rr + dr in range(R)and cc + dc in range(C):
                 nodes.add((rr + dr, cc + dc))
             # PART 2
-            i, j = r, c
             t = -1
             while 42:
                 t += 1
                 found = False
-                if i + dr * t in range(R) and j + dc * t in range(C):
-                    nodes2.add((i + dr * t, j + dc * t))
+                if r + dr * t in range(R) and c + dc * t in range(C):
+                    nodes2.add((r + dr * t, c + dc * t))
                     found = True
-                if i - dr * t in range(R) and j - dc * t in range(C):
-                    nodes2.add((i - dr * t, j - dc * t))
+                if r - dr * t in range(R) and c - dc * t in range(C):
+                    nodes2.add((r - dr * t, c - dc * t))
                     found = True
                 if not found: break
 print('part 1:', len(nodes))
