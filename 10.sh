@@ -26,7 +26,6 @@ for (( r = 0; r < R; r++ )); do
         D["$r,$c"]=1
         SEEN["$r,$c"]=1
 
-        count=0
         Q=("$r,$c") # deque
 
         while [[ ${#Q[@]} > 0 ]];do
@@ -37,8 +36,8 @@ for (( r = 0; r < R; r++ )); do
             prev=${g[sr]:sc:1}
 
             if [[ $prev == 9 ]]; then
+                p1=$((p1 + 1))
                 p2=$((p2 + D["$sr,$sc"]))
-                count=$((count + 1))
             fi
 
             for dir in "${DIR[@]}";do
@@ -56,7 +55,6 @@ for (( r = 0; r < R; r++ )); do
                 fi
             done
         done
-        p1=$((p1 + count))
     done
 done
 
