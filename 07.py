@@ -12,7 +12,6 @@ def p1(t, nums, N, NG):
                 else:
                     res += nums[i]
                     perm.append('o ')
-
         else: # way 2/ leftshift ...001 by i number of bits
             for i in range(N - 1):
                 if (mask & (1 << i)) > 0: # l-shift
@@ -21,11 +20,8 @@ def p1(t, nums, N, NG):
                 else:
                     res += nums[i + 1]
                     perm.append('o ')
-        #print(''.join(perm))
         if t == res:
-            #print(nums, 'OK/dbg\n')
             return True
-    #print(nums, 'failed/dbg\n')
     return False
 
 """
