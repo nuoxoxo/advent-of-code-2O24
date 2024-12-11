@@ -1,5 +1,7 @@
+B=75#25
+testing=not False
 a = [int(_) for _ in open(0).read().split()]
-print(a)#for n in a:print(n)
+print(a)
 
 def p2() -> int:
     from collections import Counter
@@ -7,8 +9,8 @@ def p2() -> int:
     counter = Counter(a)
     while 42:
         tmp = Counter()
-        print(b)
-        if b == 75:
+        if testing:print(b)
+        if b == B:
             break
         for k, n in counter.items():
         #for n in a:
@@ -27,36 +29,24 @@ def p2() -> int:
 def p1(a) -> int:
     b = 0
     while 42:
-        print(b)
-        if b == 75:
+        if testing:print(b)
+        if b == 25:
             break
         A = []
-        blinked = False
-        #print('curr/', a)
         for n in a:
             if n == 0:
-                #print('up/', b, n)
                 A.append(1)
-                blinked = True
-                #print('curr/', A)
             elif len(str(n)) % 2 == 0:
-                #print('mid/',b, n)
                 N = len(str(n))
                 A.append(int(str(n)[:N // 2]))
                 A.append(int(str(n)[N // 2:]))
-                blinked = True
-                #print('curr/', A)
             else:
-                #print('down/',b, n)
                 A.append(n * 2024)
-                blinked = True
-                #print('curr/', A)
         b+=1
-        #print(len(A), '-', A)
+        if testing: print(b, '-', len(A), '-', A)
         a = A[:]
-        if not blinked:
-            break
     return len(A)
 
-
-print(p2())
+res1,res2 = p1(a), p2()
+print('part 1:', res1);
+print('part 2:', res2);
