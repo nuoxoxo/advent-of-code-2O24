@@ -5,23 +5,23 @@ moves = [_.strip() for _ in moves.splitlines()]
 R,C=len(G),len(G[0])
 D={'<': (0,-1), '>':(0,1), '^':(-1,0), 'v':(1,0)}
 
+def PrinterR(g, curriter, msg):
+    print(''.join(g), curriter, msg)
+
+def Printer(G, curriter, msg):
+    for g in G: print(''.join(g), curriter, msg)
+    print()
+
 def p2(G):
     for i in range(R): # transform grid
-        temp = []
+        row = []
         for c in G[i]:
-            if c == '@':
-                temp.append('@')
-                temp.append('.')
-            if c == 'O':
-                temp.append('[')
-                temp.append(']')
-            if c == '#':
-                temp.append('#')
-                temp.append('#')
-            if c == '.':
-                temp.append('.')
-                temp.append('.')
-        G[i] = temp
+            if c == '@': row += ['@', '.']
+            if c == 'O': row += ['[', ']']
+            if c == '#': row += ['#', '#']
+            if c == '.': row += ['.', '.']
+        #print(''.join(g),r,'line/final')
+        G[i] = row
     # new start
     sr,sc=None,None
     for r,g in enumerate(G):
@@ -34,50 +34,45 @@ def p2(G):
     for i,m in enumerate(moves):
         for j,ar in enumerate(m):
             dr,dc = D[ar]
+            q2 = [(r,c)]
             Q = [(r,c)]
-            qset = [(r,c)]
             rr,cc = r,c
             stuck = False
-            while Q:
-                rr,cc = Q.pop(0)
+            while q2:
+                rr,cc = q2.pop(0)
                 rr,cc = rr + dr, cc + dc
-                if (rr,cc) in qset:
+                if (rr,cc) in Q:
                     continue
                 thing = G[rr][cc]
                 if thing in '[]':
+                    q2.append((rr,cc))
                     Q.append((rr,cc))
-                    qset.append((rr,cc))
                     if thing == '[':
+                        q2.append((rr,cc + 1))
                         Q.append((rr,cc + 1))
-                        qset.append((rr,cc + 1))
                     if thing == ']':
-                        qset.append((rr,cc - 1))
+                        q2.append((rr,cc - 1))
                         Q.append((rr,cc - 1))
-                if thing == '#':
+                elif thing == '#':
                     stuck = True
                     break
             if stuck:
                 continue
-            Q = qset[:]
-            gg = [_[:] for _ in G]
-            while qset:
-                br,bc = qset.pop()
-                G[br][bc] = '.'
+            gg = [_[:] for _ in G] # render new state
             while Q:
                 br,bc = Q.pop()
-                rr,cc = br + dr, bc + dc
-                G[rr][cc] = gg[br][bc]
-            G[r + dr][c + dc] = '@' # move to ball
+                thing = G[br][bc]
+                G[br][bc] = '.'
+                G[br + dr][bc + dc] = thing
+            G[r + dr][c + dc] = '@' # mave myself
             G[r][c] = '.' # left null
             r,c = r + dr,c + dc
-        """for k,g in enumerate(G):print(' '.join(g),i,'iter/evol')
-        print()
-        """
+        Printer(G, i, 'iter/evol')
     res = 0
     for r,g in enumerate(G):
         for c,thing in enumerate(g):
             if thing == '[': res += 100 * r + c
-        #print(' '.join(g),r)
+        PrinterR(''.join(g), r, 'line/final')
     return res
 
 def p1(G):
@@ -107,19 +102,17 @@ def p1(G):
                 continue
             while Q:
                 br,bc = Q.pop()
-                rr,cc = br + dr, bc + dc
-                G[rr][cc] = 'O'
-            G[r + dr][c + dc] = '@' # move to ball
+                G[br + dr][bc + dc] = 'O'
+            G[r + dr][c + dc] = '@' # make the move
             G[r][c] = '.' # left null
             r,c = r + dr,c + dc
-        """or k,g in enumerate(G):print(' '.join(g),i,'iter/evol')
-        print()
-        """
+
+        Printer(G, i, 'iter/evol')
     res = 0
     for r,g in enumerate(G):
         for c,thing in enumerate(g):
             if thing == 'O': res += 100*r+c
-        #print(' '.join(g),r, 'line/end')
+        PrinterR(''.join(g), r, 'line/final')
     return res
 
 res1 = p1([_[:] for _ in G])
