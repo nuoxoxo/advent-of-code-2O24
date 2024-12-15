@@ -35,36 +35,36 @@ def p2(G):
         for j,ar in enumerate(m):
             dr,dc = D[ar]
             Q = [(r,c)]
-            todoset = [(r,c)]
+            qset = [(r,c)]
             rr,cc = r,c
             stuck = False
             while Q:
                 rr,cc = Q.pop(0)
                 rr,cc = rr + dr, cc + dc
-                if (rr,cc) in todoset:
+                if (rr,cc) in qset:
                     continue
                 thing = G[rr][cc]
                 if thing in '[]':
                     Q.append((rr,cc))
-                    todoset.append((rr,cc))
+                    qset.append((rr,cc))
                     if thing == '[':
                         Q.append((rr,cc + 1))
-                        todoset.append((rr,cc + 1))
+                        qset.append((rr,cc + 1))
                     if thing == ']':
-                        todoset.append((rr,cc - 1))
+                        qset.append((rr,cc - 1))
                         Q.append((rr,cc - 1))
                 if thing == '#':
                     stuck = True
                     break
             if stuck:
                 continue
-            Q = todoset
+            Q = qset[:]
             gg = [_[:] for _ in G]
-            for k in range(len(Q) - 1):
-                br,bc = Q[k + 1]
+            while qset:
+                br,bc = qset.pop()
                 G[br][bc] = '.'
-            for k in range(len(Q) - 1):
-                br,bc = Q[k + 1]
+            while Q:
+                br,bc = Q.pop()
                 rr,cc = br + dr, bc + dc
                 G[rr][cc] = gg[br][bc]
             G[r + dr][c + dc] = '@' # move to ball
@@ -92,21 +92,21 @@ def p1(G):
     for i,m in enumerate(moves):
         for j,ar in enumerate(m):
             dr,dc = D[ar]
-            todo = [(r,c)]
+            Q = [(r,c)]
             rr,cc = r,c
             stuck = False
             while 42:
                 rr,cc = rr + dr, cc + dc
                 thing = G[rr][cc]
                 if thing == '.': break
-                if thing == 'O': todo.append((rr,cc))
+                if thing == 'O': Q.append((rr,cc))
                 if thing == '#':
                     stuck = True
                     break
             if stuck:
                 continue
-            for k in range(len(todo) - 1):
-                br,bc = todo[k + 1]
+            while Q:
+                br,bc = Q.pop()
                 rr,cc = br + dr, bc + dc
                 G[rr][cc] = 'O'
             G[r + dr][c + dc] = '@' # move to ball
