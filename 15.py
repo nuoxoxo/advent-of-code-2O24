@@ -36,7 +36,6 @@ def p2(G):
             dr,dc = D[ar]
             q2 = [(r,c)]
             Q = [(r,c)]
-            rr,cc = r,c
             stuck = False
             while q2:
                 rr,cc = q2.pop(0)
@@ -62,8 +61,8 @@ def p2(G):
             while Q:
                 br,bc = Q.pop()
                 thing = G[br][bc]
-                G[br][bc] = '.'
                 G[br + dr][bc + dc] = thing
+                G[br][bc] = '.'
             G[r + dr][c + dc] = '@' # mave myself
             G[r][c] = '.' # left null
             r,c = r + dr,c + dc
