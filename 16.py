@@ -1,32 +1,57 @@
+TEST=1
 G = [list(_) for _ in open(0).read().splitlines()]
-#for g in G:print(' '.join(g))
+if TEST:
+    for g in G:print(''.join(g))
 R,C = len(G), len(G[0])
-S,E=None,None
+sr,sc,er,ec=None,None,None,None#S,E=None,None
 for r in range(R):
     for c in range(C):
-        if G[r][c] == 'S':S = (r,c)
-        if G[r][c] == 'E':E = (r,c)
+        if G[r][c] == 'S':sr,sc=r,c#S = (r,c)
+        if G[r][c] == 'E':er,ec=r,c#E = (r,c)
 D=((0,1),(1,0),(0,-1),(-1,0))
-Q = [(0, 0, S)] # cost - heading - coor
-SEEN = set([(0,S)])
+Q = [(0, 0, sr,sc, [])] # cost - heading - coor
+SEEN = set([(0,sr,sc)])
+
+def seepath(G,path,sr,sc):
+    for i in range(len(G)):
+        G[i] = [' ' if _ == '.' else _ for _ in G[i]]
+        G[i] = ['@' if _ == '#' else _ for _ in G[i]]
+    for r,c in path:G[r][c] = 'S' if r == sr and c == sc else '.'
+    for g in G:print(' '.join(g))
+
 import heapq#from collections import heapq
-heapq.heapify( Q )
-"""(increasing their score by 1 point), but never into a wall (#). They can also rotate clockwise or counterclockwise 90 degrees at a time (increasing their score by 1000 points)."""
+dist = None
+T = []
 while Q:
-    cost,curr,coor = heapq.heappop(Q)
-    r,c = coor
+    cost,curr,r,c,path = heapq.heappop(Q)
     #print(cost,curr,coor, Q)
-    if coor == E: 
-        print('reached/', coor, cost)
-        break
+    if r == er and c == ec: 
+        #print('reached/', r,c, cost)
+        if not dist:
+            dist = cost
+            T += path + [(r,c)]
+        elif dist == cost:
+            T += path + [(r,c)]
+        if TEST:
+            print(path);seepath([_[:] for _ in G],path,sr,sc)
+        #break # PART 1
+    if (curr,r,c) not in SEEN:
+        SEEN.add( (curr,r,c) )
+    path = path + [(r,c)]
     dr,dc = D[curr]
     rr,cc = r + dr, c + dc
     #print('rr/cc', rr, cc)
-    if -1<rr<R and -1<cc<C and G[rr][cc] != '#' and (curr,(rr,cc)) not in SEEN:
-        heapq.heappush(Q, (cost + 1, curr, (rr, cc)))
-        SEEN.add((curr,(rr,cc)))
+    if -1<rr<R and -1<cc<C and G[rr][cc] != '#':
+        heapq.heappush(Q, (cost + 1, curr, rr, cc, path))
     for t in (-1,1):
-        nc = (curr + t) % 4
-        if (nc,coor) not in SEEN:
-            heapq.heappush(Q, (cost + 1000, nc, coor))
-            SEEN.add((nc,coor))
+        newcurr = (curr + t) % 4
+        if (newcurr,r,c) not in SEEN:
+            heapq.heappush(Q, (cost + 1000, newcurr, r,c,path))
+S = set()
+for r,c in T:
+    S.add((r,c))
+if TEST: seepath([_[:] for _ in G],list(S),sr,sc)
+print('part 1:', dist)
+print('part 2:', len(S))
+assert(dist in[88468,11048,7036]);
+assert(len(S) in[45,64,616])
