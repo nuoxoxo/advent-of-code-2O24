@@ -80,8 +80,29 @@ checker() {
     echo "$res"
 }
 
+p2 () {
+    local l=0
+    #local r=${#coors[@]}
+    local r=$(( ${#coors[@]} - 1 ))
+    while (( l <= r )); do
+        local mid=$(( (l + r)  / 2 ))
+        unset gc
+        declare -A gc
+        gcopy G gc
+        res=$(checker mid gc)
+        if [[ -z "$res" ]]; then
+            r=$(( mid - 1 ))
+        else
+            l=$(( mid + 1 ))
+        fi
+    done
+    echo "$l,${coors[l]}"
+}
+
 declare -A gg
 gcopy G gg
 part1=$(checker END gg)
 echo "part 1: $part1"
 
+part2=$(p2)
+echo "part 2: $part2"
