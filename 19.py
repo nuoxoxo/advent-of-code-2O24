@@ -25,8 +25,20 @@ for line in lines.splitlines():
                 here += go2(i + len(p))
         dp[i] = here
         return here
-    g = go(line)
-    g2 = go2(0); assert g == g2
+
+    def go3(): #sliding_window() -> int:
+        dp = [0] * (len(line) + 1)
+        dp[0] = 1
+        for R in range(1, len(line) + 1):
+            for p in ps:
+                sub = line[ R - len(p) : R]
+                if sub == p:
+                    dp[R] += dp[ R - len(p)]
+        return dp[len(line)]
+
+    #g = go(line)
+    #g = go2(0)
+    g = go3()
     res += (g > 0)
     res2 += g
 print('part 1:', res)
