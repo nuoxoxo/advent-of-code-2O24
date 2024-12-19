@@ -5,17 +5,31 @@ assert len(ps)==len(patt)
 res = 0
 res2 = 0
 for line in lines.splitlines():
-    print(line)
     dp = {}
-    def go(w) -> int:
+    def go(w) -> int: # original soln
         if not w: return 1
         if w in dp: return dp[w]
         here = 0
         for p in ps:
-            if w.startswith(p): here += go(w[len(p): ])
+            if w.startswith(p):
+                here += go(w[len(p): ])
         dp[w] = here
         return here
+
+    def go2(i) -> int:
+        if i == len(line): return 1
+        if i in dp: return dp[i]
+        here = 0
+        for p in ps:
+            if line[i:].startswith(p):
+                here += go2(i + len(p))
+        dp[i] = here
+        return here
     g = go(line)
+    g2 = go2(0); assert g == g2
     res += (g > 0)
     res2 += g
-print(res, res2)
+print('part 1:', res)
+print('part 2:', res2)
+assert res in [6, 306]
+assert res2 in [16,604622004681855]
