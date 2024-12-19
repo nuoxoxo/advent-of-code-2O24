@@ -11,12 +11,9 @@ def printer(robs):
     for g in G[R//7*3:R//5*4]:print(' '.join(g[C//4:C//4*3]))
 
 def newrc(r,c,dr,dc) -> (int, int):
-    rr,cc = r + dr, c + dc
-    if rr < 0: rr = R + rr
-    elif rr >= R:rr = rr - R
-    if cc < 0: cc = C + cc
-    elif cc >= C:cc = cc - C
-    return (rr,cc)
+    r = (r + dr + R) % R
+    c = (c + dc + C) % C
+    return (r,c)
 
 def newrobot(line) -> (int,int,int,int):
     l,r = line.split()
