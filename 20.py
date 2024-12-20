@@ -8,20 +8,20 @@ for r in range(R):
 for g in G:print(''.join(g))
 D=[(0,1),(1,0),(0,-1),(-1,0)]
 import collections
-def BFS(G):
-    Q = collections.deque([(0,sr,sc)])
-    SEEN = set()
+def DP(G):
+    Q = collections.deque([(sr,sc)])
+    dp = [[int(1e9)for _ in range(C)]for _ in range(R)]
+    dp[sr][sc] = 0
     while Q:
-        cost, r,c = Q.popleft()
-        if G[r][c] == 'E': break
-        if (r,c) in SEEN: continue
-        SEEN.add((r,c))
+        r,c = Q.popleft()
         for dr,dc in D:
             rr,cc = r + dr,c + dc
             if -1<rr<R and -1<cc<C and G[rr][cc] != '#':
-                Q.append((cost + 1, rr, cc))
-    return cost
-raw = BFS(G)#[_[:] for _ in G])
+                if dp[rr][cc] > dp[r][c] + 1:
+                    dp[rr][cc] = dp[r][c] + 1
+                    Q.append((rr,cc))
+    return dp[er][ec]
+raw = DP(G)#[_[:] for _ in G])
 print('nocheat/',raw)
 res=0
 s2=0
@@ -29,7 +29,7 @@ for r in range(R):
     for c in range(C):
         if G[r][c] != "#": continue
         G[r][c] = '.'
-        test = BFS(G)
+        test = DP(G)
         test = raw - test
         #if test > 0: print('test/',test)
         if test == 2: s2+=1
