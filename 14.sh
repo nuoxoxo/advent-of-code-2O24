@@ -176,23 +176,6 @@ for line in "${lines[@]}"; do
     for (( i = 0; i < T; i++ )); do
         (( r = (r + dr + R) % R ))
         (( c = (c + dc + C) % C ))
-        : '
-        if (( rr < 0 )); then
-            (( rr = R + rr ))
-        elif (( rr >= R ));then
-            (( rr = rr - R ))
-        fi
-        (( r = rr ))
-        '
-        : '
-        #(( cc = c + dc ))
-        if (( c < 0 )); then
-            (( cc = C + cc ))
-        elif (( cc >= C ));then
-            (( cc = cc - C ))
-        fi
-        (( c = cc ))
-        '
     done
     (( D["$r,$c"]++ ))
 done
