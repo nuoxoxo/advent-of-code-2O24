@@ -1,9 +1,8 @@
 #!/bin/bash
 
 g=()
-while IFS= read -r line; do
-    g+=("$line")
-done
+mapfile -t g
+printf "%s\n" "${g[@]}"
 
 R=${#g[@]}
 C=${#g[0]}
