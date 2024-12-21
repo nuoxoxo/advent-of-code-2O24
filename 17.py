@@ -18,7 +18,7 @@ def p2(curr, sub):
     #print(sub)
     for digit in range(8):
         #print(digit)
-        a = curr << 3 | digit
+        a = (curr << 3) + digit
         b, c = 0, 0
         o = None
         for i in range(0, len( program ) - 2, 2):
