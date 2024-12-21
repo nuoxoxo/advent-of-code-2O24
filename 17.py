@@ -1,8 +1,7 @@
 import re
-up,down = open(0).read().strip().split('\n\n')
-up = up.splitlines()
-a,b,c = [int(_.split(': ')[1]) for _ in up]
-program = list(map(int,re.findall( r'\d+', down)))
+up, down = open(0).read().strip().split('\n\n')
+a, b, c = [int(_.split(': ')[1]) for _ in up.splitlines()]
+program = list(map(int, re.findall( r'\d+', down)))
 
 def gc(n,a,b,c) -> int:
         if n in [0,1,2,3]: return n
@@ -10,17 +9,15 @@ def gc(n,a,b,c) -> int:
         if n == 5: return b
         if n == 6: return c
 
-# p2/ 16312849068642 lo 
-
-def p2(curr, sub):
-    if sub == []: return curr
+def quine(curr, sub):
+    print(curr, sub)
+    if not sub:
+        return curr
     N = len(program)
-    #print(sub)
     for digit in range(8):
-        #print(digit)
         a = (curr << 3) + digit
         b, c = 0, 0
-        o = None
+        output = None
         for i in range(0, len( program ) - 2, 2):
             code = program [i]
             oper = program [i + 1]
@@ -28,18 +25,17 @@ def p2(curr, sub):
             # opcode is never 0 bc. in reverse A grows and should not shrink
             #   except when operand is 3
             #   even in this case we do nothing
-            #if code == 0 and oper != 3: a >>= combo #adv
             if code == 1: b ^= oper #bxl
             if code == 2: b = combo % 8 #bst
             if code == 3 and a != 0: i, jumped = oper, True#jnz
-            if code == 4: b ^= c#bxc
-            if code == 5: o = combo % 8 # res.append(combo % 8) #out
-            if code == 6: b = a >> combo# // (2**combo) #bdv
-            if code == 7: c = a >> combo# // (2**combo) #cdv
-            if o == sub[-1]:
-                recur = p2(a, sub[:-1])
-                if recur is not None:
-                    return recur
+            if code == 4: b ^= c #bxc
+            if code == 5: output = combo % 8 # res.append(combo % 8) #out
+            if code == 6: b = a >> combo #bdv
+            if code == 7: c = a >> combo #cdv
+            if output == sub[-1]:
+                res = quine(a, sub[:-1])
+                if res is not None:
+                    return res
 
 """p2 : logic
 # 2,4,1,1,7,5,4,4,1,4,0,3,5,5,3,0
@@ -83,8 +79,7 @@ def getcombo(n) -> int:
     print('n/',n)
     assert False
 
-#a,down=117440,'0,3,5,4,3,0' # try p2test input for p1
-
+# a, down = 117440,'0,3,5,4,3,0' # try 17.2 for p1
 res = []
 i = 0
 while i < len(program):
@@ -92,18 +87,17 @@ while i < len(program):
     code = program[i]
     oper = program[i + 1]
     combo = getcombo(oper)
-    if code == 0: a >>= combo # //= (2 ** combo) #adv
+    if code == 0: a >>= combo #adv
     if code == 1: b ^= oper #bxl
     if code == 2: b = combo % 8 #bst
     if code == 3 and a != 0: i, jumped = oper, True#jnz
-    if code == 4: b ^= c#bxc
+    if code == 4: b ^= c #bxc
     if code == 5: res.append(combo % 8) #out
-    if code == 6: b = a >> combo # // (2**combo) #bdv
-    if code == 7: c = a >> combo # // (2**combo) #cdv
+    if code == 6: b = a >> combo #bdv
+    if code == 7: c = a >> combo #cdv
     if not jumped: i += 2
 
-res = ','.join([str(_) for _ in res])
-print('part 1/', res)
-assert(res in['7,4,2,0,5,0,5,3,7','4,6,3,5,6,3,5,2,1,0','0,3,5,4,3,0'])
-res2 = p2(0, program)
-print('part 2/', res2)
+p1 = ','.join([str(_) for _ in res])
+p2 = quine(0, program)
+print('part 1/', p1); assert(p1 in['7,4,2,0,5,0,5,3,7','4,6,3,5,6,3,5,2,1,0','0,3,5,4,3,0'])
+print('part 2/', p2); assert p2 == 202991746427434
