@@ -17,20 +17,21 @@ for i in range(N-2):
 
 def find_cliques(ADJ):
     cliq = []
-    def bronkerbosch(possible_nodes,excluded_nodes,current_clique):
+    def bronkerbosch(possible_nodes,excluded_nodes,current_clique,best):
         if not possible_nodes and not excluded_nodes:
-            cliq.append(current_clique)
+            if best < len(current_clique):
+                best = len(current_clique)
+                cliq.append(current_clique)
             return
         for node in list(possible_nodes):
             bronkerbosch (
                 possible_nodes.intersection(ADJ[node]),
                 excluded_nodes.intersection(ADJ[node]),
-                current_clique.union(set([node]))
-            )
+                current_clique.union(set([node])),best)
             possible_nodes.remove(node)
             if node in excluded_nodes:
                 excluded_nodes.remove(node)
-    bronkerbosch (set(ADJ.keys()),set(),set() )
+    bronkerbosch (set(ADJ.keys()),set(),set(),0 )
     return cliq
 
 """def find_cliques(ADJ):
