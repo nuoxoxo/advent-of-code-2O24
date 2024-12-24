@@ -160,9 +160,6 @@ for (( i = 0; i < $M; i++ ));do
         for cell in "${Q[@]}"; do
             [[ "$cell" == "$rr,$cc" ]] && continue 2
         done
-        if (( rr < 0 || rr >= R || cc < 0 || cc >= C )); then
-            continue
-        fi
 
         thing=${G[rr]:cc:1}
         if [[ "$thing" == "[" || "$thing" == "]" ]]; then
