@@ -132,16 +132,7 @@ print(','.join(sorted(list( S ))), '/prev + observedor')
 print(','.join(sorted(list( problematicZ ))), '/problematic zouts')
 
 print('p1/',p1); assert p1 in[4,2024,53325321422566]
-
-# z/ 16 31 37 - from observedz
-# z/ 21 - from seeing with eyes
+# z/ 16 31 37 from observedz --- z/ 21 from seeing with eyes
 e = ['rrn','z37','rdn','z31','z16','fkb','rqf','nnr']
 print('p2/',','.join(sorted(e)), '/eyes')
 assert ','.join(sorted(e)) == 'fkb,nnr,rdn,rqf,rrn,z16,z31,z37'
-
-# gcg,grr,kcm,nbm,qsj,qsj,tjk,tjk
-# bss,gcg,grr,kcm,nbm,qsj,tjk,tnn
-# bss,kwh,qqr,qsj,tjk,tnn,x37,y37
-# bss,fkb,qsj,rcc,tjk,tnn,x37,y37
-
-
