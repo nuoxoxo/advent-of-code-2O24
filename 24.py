@@ -1,13 +1,3 @@
-"""AND gates 
-output 1 if both inputs are 1; 
-if either input is 0, these gates output 0.
-OR gates 
-output 1 if one or both inputs is 1; 
-if both inputs are 0, these gates output 0.
-XOR gates 
-output 1 if the inputs are different; 
-if the inputs are the same, these gates output 0."""
-
 up,down = open(0).read().strip().split('\n\n')
 wires = {}
 for line in up.splitlines():
